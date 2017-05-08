@@ -7,14 +7,14 @@ import java.util.*
 
 data class AnswerInlineQueryMethod(
 		@JsonProperty("inline_query_id") val inlineQueryId: String,
-        val results: Array<InlineQueryResult>,
+        @JsonProperty("results") val results: Array<InlineQueryResult>,
         @JsonProperty("cache_time") val cacheTime: Int? = null,
         @JsonProperty("is_personal") val isPersonal: Boolean? = null,
         @JsonProperty("next_offset") val nextOffset: String? = null,
         @JsonProperty("switch_pm_text") val switchPmText: String? = null,
         @JsonProperty("switch_pm_parameter") val switchPmParameter: String? = null
 ) : Method {
-	override val method: String = "answerInlineQuery"
+	override @get:JsonProperty("method") val method: String = "answerInlineQuery"
 
 	override fun hashCode(): Int{
 		var result = inlineQueryId.hashCode()

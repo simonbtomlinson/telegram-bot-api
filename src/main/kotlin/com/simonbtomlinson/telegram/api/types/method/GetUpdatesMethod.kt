@@ -1,10 +1,12 @@
 package com.simonbtomlinson.telegram.api.types.method
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 
 data class GetUpdatesMethod(
-	val offset: Int? = null,
-    val limit: Int? = null,
-    val timeout: Int? = null
+	@JsonProperty("offset") val offset: Int? = null,
+    @JsonProperty("limit") val limit: Int? = null,
+    @JsonProperty("timeout") val timeout: Int? = null
 ) : Method {
-	override val method: String = "getUpdates"
+	override @get:JsonProperty("method") val method: String = "getUpdates"
 }

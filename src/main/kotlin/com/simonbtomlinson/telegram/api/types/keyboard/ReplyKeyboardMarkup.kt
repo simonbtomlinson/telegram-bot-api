@@ -6,10 +6,10 @@ import java.util.*
 
 
 data class ReplyKeyboardMarkup (
-		val keyboard: Array<Array<KeyboardButton>>,
+		@JsonProperty("keyboard") val keyboard: Array<Array<KeyboardButton>>,
         @JsonProperty("resize_keyboard") val resizeKeyboard: Boolean = false,
         @JsonProperty("one_time_keyboard") val oneTimeKeyboard: Boolean = false,
-        val selective: Boolean = false
+        @JsonProperty("selective") val selective: Boolean = false
 ) : ReplyMarkup {
 	override fun hashCode(): Int{
 		var result = Arrays.hashCode(keyboard)

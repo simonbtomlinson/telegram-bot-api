@@ -1,6 +1,8 @@
 package com.simonbtomlinson.telegram.api.types.method
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 
 class GetMeMethod() : Method {
-	override val method = "getMe"
+	override @get:JsonProperty("method") val method = "getMe"
 }

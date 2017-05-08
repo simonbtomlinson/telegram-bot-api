@@ -14,11 +14,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @see <a href="https://core.telegram.org/bots/api#messageentity">Telegram Documentation</a>
  */
 data class MessageEntity(
-		val type: Type,
-		val offset: Int,
-        val length: Int,
-        val url: String?,
-        val user: User?
+		@JsonProperty("type") val type: Type,
+		@JsonProperty("offset") val offset: Int,
+        @JsonProperty("length") val length: Int,
+        @JsonProperty("url") val url: String?,
+        @JsonProperty("user") val user: User?
 ) {
 	enum class Type {
 		@JsonProperty("mention") MENTION,

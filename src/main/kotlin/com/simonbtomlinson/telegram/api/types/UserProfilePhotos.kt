@@ -6,7 +6,7 @@ import java.util.*
 
 data class UserProfilePhotos(
 		@JsonProperty("total_count") val totalCount: Int,
-        val photos: Array<Array<PhotoSize>>
+        @JsonProperty("photos") val photos: Array<Array<PhotoSize>>
 ) {
 
 	override fun equals(other: Any?): Boolean{

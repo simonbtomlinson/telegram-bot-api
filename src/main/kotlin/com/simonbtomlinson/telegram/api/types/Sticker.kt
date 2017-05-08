@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Sticker(
 		@JsonProperty("file_id") val fileId: String,
-        val width: Int,
-        val height: Int,
-        val thumb: PhotoSize?,
-        val emoji: String?,
+        @JsonProperty("width") val width: Int,
+        @JsonProperty("height") val height: Int,
+        @JsonProperty("thumb") val thumb: PhotoSize?,
+        @JsonProperty("emoji") val emoji: String?,
         @JsonProperty("file_size") val fileSize: Int?
 )

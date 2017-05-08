@@ -1,8 +1,9 @@
 package com.simonbtomlinson.telegram.api.types.method
 
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class SetWebhookMethod(
-		val url: String? = null
+		@JsonProperty("url") val url: String? = null
 ) : Method {
-	override val method: String = "setWebhook"
+	override @get:JsonProperty("method") val method: String = "setWebhook"
 }

@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @property lastName Optional. Last name of the other party in a private chat. last_name in telegram
  */
 data class Chat(
-		val id: Long,
-        val type: Type,
-        val title: String?,
-        val username: String?,
+		@JsonProperty("id") val id: Long,
+        @JsonProperty("type") val type: Type,
+        @JsonProperty("title") val title: String?,
+        @JsonProperty("username") val username: String?,
         @JsonProperty("first_name") val firstName: String?,
         @JsonProperty("last_name") val lastName: String?
 ) {

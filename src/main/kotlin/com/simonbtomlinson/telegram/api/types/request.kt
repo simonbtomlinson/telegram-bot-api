@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.simonbtomlinson.telegram.api.types.inline.result.InlineQueryResult
 
 data class GetUpdatesRequest(
-		val offset: Int? = null,
-		val limit: Int? = null,
-		val timeout: Int? = null
+		@JsonProperty("offset") val offset: Int? = null,
+		@JsonProperty("limit") val limit: Int? = null,
+		@JsonProperty("timeout") val timeout: Int? = null
 )
 
 data class SendMessageRequest(
 		@JsonProperty("chat_id") val chatId: Long,
-		val text: String
+		@JsonProperty("text") val text: String
 )
 
 data class AnswerInlineQueryRequest(
 		@JsonProperty("inline_query_id") val inlineQueryId: String,
-		val results: List<InlineQueryResult>
+		@JsonProperty("results") val results: List<InlineQueryResult>
 )

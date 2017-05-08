@@ -19,25 +19,25 @@ import java.util.*
  */
 data class Message(
 		@JsonProperty("message_id") val messageId: Int,
-		val from: User?,
-		val chat: Chat,
-		val date: Instant,
+		@JsonProperty("from") val from: User?,
+		@JsonProperty("chat") val chat: Chat,
+		@JsonProperty("date") val date: Instant,
         @JsonProperty("forward_from") val forwardFrom: User?,
         @JsonProperty("forward_from_chat") val forwardFromChat: Chat?,
         @JsonProperty("forward_date") val forwardDate: Instant?,
         @JsonProperty("reply_to_message") val replyToMessage: Message?,
         @JsonProperty("edit_date") val editDate: Instant?,
-		val text: String?,
-        val entities: Array<MessageEntity>?,
-        val audio: Audio?,
-        val document: Document?,
-        val photo: Array<PhotoSize>?,
-        val sticker: Sticker?,
-        val video: Video?,
-        val voice: Voice?,
-        val caption: String?,
-        val location: Location?,
-        val contact: Contact?
+		@JsonProperty("text") val text: String?,
+        @JsonProperty("entities") val entities: Array<MessageEntity>?,
+        @JsonProperty("audio") val audio: Audio?,
+        @JsonProperty("document") val document: Document?,
+        @JsonProperty("photo") val photo: Array<PhotoSize>?,
+        @JsonProperty("sticker") val sticker: Sticker?,
+        @JsonProperty("video") val video: Video?,
+        @JsonProperty("voice") val voice: Voice?,
+        @JsonProperty("caption") val caption: String?,
+        @JsonProperty("location") val location: Location?,
+        @JsonProperty("contact") val contact: Contact?
 ) {
 
 	override fun hashCode(): Int{

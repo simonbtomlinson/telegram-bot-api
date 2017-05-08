@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties("chosen_inline_result", "callback_query")
 data class Update(
 		@JsonProperty("update_id") val updateId: Int,
-		val message: Message?,
+		@JsonProperty("message") val message: Message?,
 		@JsonProperty("edited_message") val editedMessage: Message?,
 		@JsonProperty("inline_query") val inlineQuery: InlineQuery?
 		// TODO: Add chosen_inline_result, callback_query
