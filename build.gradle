@@ -25,6 +25,10 @@ dependencies {
 	compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
 	compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
 
+	def retrofit_version = '2.2.0'
+	compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+	compile("com.squareup.retrofit2:converter-jackson:$retrofit_version")
+
 	testCompile 'io.kotlintest:kotlintest:2.0.1'
 }
 
