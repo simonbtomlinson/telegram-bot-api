@@ -30,7 +30,7 @@ private interface RetrofitClient {
 	fun answerInlineQuery(@Body answerInlineQueryMethod: AnswerInlineQueryMethod): Call<TelegramResponse<Boolean>>
 }
 
-class RetrofitTelegramClient(apiKey: String) : TelegramClient {
+class RetrofitTelegramClient(apiKey: String, objectMapper: ObjectMapper) : TelegramClient {
 
 	private val retrofitClient: RetrofitClient
 
@@ -39,7 +39,7 @@ class RetrofitTelegramClient(apiKey: String) : TelegramClient {
 		val retrofit = Retrofit.Builder()
 				.baseUrl("https://api.telegram.org/bot$apiKey/")
 				.client(okHttp)
-				.addConverterFactory(JacksonConverterFactory.create(ObjectMapper().findAndRegisterModules()))
+				.addConverterFactory(JacksonConverterFactory.create(objectMapper))
 				.build()
 		retrofitClient = retrofit.create(RetrofitClient::class.java)
 	}
