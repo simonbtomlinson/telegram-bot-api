@@ -1,6 +1,9 @@
 package com.simonbtomlinson.telegram.api.client
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.simonbtomlinson.telegram.api.BadTelegramResponseException
 import com.simonbtomlinson.telegram.api.types.*
 import com.simonbtomlinson.telegram.api.types.method.*
@@ -30,11 +33,26 @@ private interface RetrofitClient {
 	fun answerInlineQuery(@Body answerInlineQueryMethod: AnswerInlineQueryMethod): Call<TelegramResponse<Boolean>>
 }
 
-class RetrofitTelegramClient(apiKey: String, objectMapper: ObjectMapper) : TelegramClient {
+
+/*
+	The default object mapper, set up correctly for telegram
+ */
+private fun defaultObjectMapper() = jacksonObjectMapper()
+		.findAndRegisterModules()
+		.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+
+/**
+ * @param apiKey The api key for this telegram client
+ * @param objectMapper A jackson object mapper to use when communicating with Telegram. It should have the [JsonInclude.Include.NON_NULL] serialization inclusion and should be configured so that [DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES] is set to false.
+ *
+ */
+class RetrofitTelegramClient(apiKey: String, objectMapper: ObjectMapper = defaultObjectMapper()) : TelegramClient {
 
 	private val retrofitClient: RetrofitClient
 
 	init {
+		objectMapper.serializationConfig.serializationFeatures
 		val okHttp =  buildOkHTTP()
 		val retrofit = Retrofit.Builder()
 				.baseUrl("https://api.telegram.org/bot$apiKey/")
