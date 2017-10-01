@@ -28,6 +28,8 @@ dependencies {
 	def retrofit_version = '2.2.0'
 	compile "com.squareup.retrofit2:retrofit:$retrofit_version"
 	compile("com.squareup.retrofit2:converter-jackson:$retrofit_version")
+	
+	compile 'org.slf4j:slf4j-api:1.7.25'
 
 	testCompile 'io.kotlintest:kotlintest:2.0.1'
 }

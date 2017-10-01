@@ -8,7 +8,9 @@ import com.simonbtomlinson.telegram.api.BadTelegramResponseException
 import com.simonbtomlinson.telegram.api.types.*
 import com.simonbtomlinson.telegram.api.types.method.*
 import okhttp3.OkHttpClient
+import org.slf4j.LoggerFactory
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.http.Body
@@ -49,12 +51,16 @@ private fun defaultObjectMapper() = jacksonObjectMapper()
  */
 class RetrofitTelegramClient(apiKey: String, objectMapper: ObjectMapper = defaultObjectMapper()) : TelegramClient {
 
+	private val logger = LoggerFactory.getLogger(RetrofitTelegramClient::class.java)
+
 	private val retrofitClient: RetrofitClient
+
+	private val retrofit: Retrofit
 
 	init {
 		objectMapper.serializationConfig.serializationFeatures
 		val okHttp =  buildOkHTTP()
-		val retrofit = Retrofit.Builder()
+		retrofit = Retrofit.Builder()
 				.baseUrl("https://api.telegram.org/bot$apiKey/")
 				.client(okHttp)
 				.addConverterFactory(JacksonConverterFactory.create(objectMapper))
@@ -69,40 +75,59 @@ class RetrofitTelegramClient(apiKey: String, objectMapper: ObjectMapper = defaul
 			.build()
 
 
-	private fun <T> ensureOkResponse(response: TelegramResponse<T>) {
-		if (!response.ok) {
-			throw BadTelegramResponseException(response)
+	private fun <T> ensureOkResponse(response: Response<TelegramResponse<T>>) {
+		if (!response.isSuccessful) {
+			val error = retrofit.responseBodyConverter<TelegramError>(
+					TelegramError::class.java,
+					TelegramError::class.java.annotations
+			).convert(response.errorBody())
+			logger.error("Error: $error")
+			throw BadTelegramResponseException(error)
 		}
 	}
 
 	override fun getUpdates(getUpdatesMethod: GetUpdatesMethod): List<Update> {
-		val response = retrofitClient.getUpdates(getUpdatesMethod).execute().body()
+		logger.debug("Getting updates using $getUpdatesMethod")
+		val response = retrofitClient.getUpdates(getUpdatesMethod).execute()
 		ensureOkResponse(response)
-		return response.result
+		val result = response.body().result
+		logger.debug("Got ${result.size} updates")
+		return result
 	}
 
 	override fun setWebhook(setWebhookMethod: SetWebhookMethod): Boolean {
-		val response = retrofitClient.setWebhook(setWebhookMethod).execute().body()
+		logger.debug("Setting webhook to ${setWebhookMethod.url}")
+		val response = retrofitClient.setWebhook(setWebhookMethod).execute()
 		ensureOkResponse(response)
-		return response.result
+		logger.debug("Webhook set")
+		return response.body().result
 	}
 
 	override fun getMe(getMeMethod: GetMeMethod): User {
-		val response = retrofitClient.getMe().execute().body()
+		logger.debug("Calling getMe()")
+		val response = retrofitClient.getMe().execute()
 		ensureOkResponse(response)
-		return response.result
+		val result = response.body().result
+		logger.debug("getMe() successful. Response: $result")
+		return result
 	}
 
 	override fun sendMessage(sendMessageMethod: SendMessageMethod): Message {
-		val response = retrofitClient.sendMessage(sendMessageMethod).execute().body()
+		logger.debug("Sending message using $sendMessageMethod")
+		val response = retrofitClient.sendMessage(sendMessageMethod).execute()
 		ensureOkResponse(response)
-		return response.result
+		val result = response.body().result
+		logger.debug("sendMessage() successful. Response: $result")
+		return result
 	}
 
 	override fun answerInlineQuery(answerInlineQueryMethod: AnswerInlineQueryMethod): Boolean {
-		val response = retrofitClient.answerInlineQuery(answerInlineQueryMethod).execute().body()
+		logger.debug("Answering inline query usingt: $answerInlineQueryMethod")
+		val response = retrofitClient.answerInlineQuery(answerInlineQueryMethod).execute()
 		ensureOkResponse(response)
-		return response.result
+		val result = response.body().result
+		logger.debug("answerInlineQuery() successful. Response: $result")
+		return result
 	}
 
 }

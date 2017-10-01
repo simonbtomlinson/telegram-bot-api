@@ -1,6 +1,6 @@
 package com.simonbtomlinson.telegram.api
 
-import com.simonbtomlinson.telegram.api.types.TelegramResponse
+import com.simonbtomlinson.telegram.api.types.TelegramError
 
 
-class BadTelegramResponseException(val response: TelegramResponse<*>) : RuntimeException()
+class BadTelegramResponseException(telegramError: TelegramError) : RuntimeException(telegramError.toString())
